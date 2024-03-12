@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" serverName="Remote Development" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
       <paths name="Remote Host (6e8b8bf5-ee17-4f7b-9c31-1eb1aff03caf)">
         <serverdata>
           <mappings>
             <mapping deploy="/tmp/tmp.7MmVZsh7lP" local="$PROJECT_DIR$" />
           </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug-nx" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="nx (da49a500-cdde-468c-bdd6-fa70810111e4)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.k6oeQkEpSW" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug-nx" />
+          </excludedPaths>
         </serverdata>
       </paths>
     </serverData>
