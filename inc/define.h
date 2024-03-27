@@ -9,6 +9,22 @@
 
 #ifndef DEMO_DEFINE_H
 #define DEMO_DEFINE_H
+
+#define YUN_D_UART_PATH "../../config.ini"
+
+
+/*****************************遥控模式**********************************/
+//手动
+#define RUI_D_MOD_MANUAL      1
+//视觉
+#define RUI_D_MOD_VISION      2
+//不跟随
+#define RUI_D_MOD_FOLLOW_NO   3
+//跟随
+#define RUI_D_MOD_FOLLOW      4
+//键鼠
+#define RUI_D_MOD_KEYBOARD    6
+/*****************************遥控模式**********************************/
 //需要离线检测的设备数量
 #define YUN_D_STATUS_NUM               11
 //离线检测设备的ID序号
@@ -119,10 +135,10 @@ extern clock_t YUN_V_START_TIME;
 //陀螺仪
 #define YUN_D_CAN_ID_TOP         0x101
 //云台
-#define YUN_D_CAN_ID_YAW         0x209
+#define YUN_D_CAN_ID_YAW         0x205
 #define YUN_D_CAN_ID_PIT         0x208
 //发射
 #define YUN_D_CAN_ID_ATTACK_L    0x203
 #define YUN_D_CAN_ID_ATTACK_R    0x204
-#define YUN_D_CAN_ID_ATTACK_G    0x205
+//#define YUN_D_CAN_ID_ATTACK_G    0x205
 /******************************CAN_ID********************************/

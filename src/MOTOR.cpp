@@ -4,8 +4,8 @@
 
 //#include "MOTOR.h"
 #include <cstdint>
-#include "../inc/define.h"
-#include "../inc/MOTOR.h"
+#include "define.h"
+#include "MOTOR.h"
 
 void YUN_F_MOTOR_CAN_RX(YUN_TYPEDEF_MOTOR *MOTOR,const uint8_t *CAN_DATA,uint8_t TYPE, uint8_t STATUS_ID)
 {

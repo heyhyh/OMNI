@@ -11,13 +11,8 @@ file(GLOB_RECURSE SOURCES "src/*.cpp")
 add_executable(demo ${SOURCES}
         src/MOTOR.cpp
         inc/MOTOR.h
-        inc/MOTOR.h
-        inc/MOTOR.h
-        src/MOTOR.cpp
         inc/define.h
-        src/MOTOR.cpp
         src/ROOT_INIT.cpp
-
         inc/ROOT_INIT.h
         src/PID.cpp
         inc/PID.h
@@ -26,6 +21,13 @@ add_executable(demo ${SOURCES}
         inc/MATH.h
         src/can.cpp
         inc/can.h
-        inc/TOP.h)
+        inc/TOP.h
+        src/define.cpp
+        inc/CHASSIS.h
+        inc/UART.h
+        src/UART.cpp
+        src/chassis.cpp
+        src/VOFA.cpp
+        inc/VOFA.h)
 
 target_link_libraries(demo pthread)

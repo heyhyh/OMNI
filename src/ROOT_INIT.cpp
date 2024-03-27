@@ -5,3 +5,4 @@
 
 #include "ROOT_INIT.h"
 
+struct YUN_MONITOR_Typedef YUN_V_MONITOR{ };

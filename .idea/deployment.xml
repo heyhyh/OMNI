@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Remote Development" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" serverName="nx (69f13408-f720-4c96-bccc-850bb7bdc304)" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
+    <option name="confirmBeforeUploading" value="false" />
     <serverData>
       <paths name="Remote Host (6e8b8bf5-ee17-4f7b-9c31-1eb1aff03caf)">
         <serverdata>
@@ -9,20 +10,41 @@
           </mappings>
           <excludedPaths>
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug-nx" />
             <excludedPath local="true" path="$PROJECT_DIR$/build/debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/build/debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/build/debug-nx" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
           </excludedPaths>
         </serverdata>
       </paths>
-      <paths name="nx (da49a500-cdde-468c-bdd6-fa70810111e4)">
+      <paths name="nx (69f13408-f720-4c96-bccc-850bb7bdc304)">
         <serverdata>
           <mappings>
-            <mapping deploy="/tmp/tmp.k6oeQkEpSW" local="$PROJECT_DIR$" />
+            <mapping deploy="/tmp/OMNI" local="$PROJECT_DIR$" />
           </mappings>
           <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug-nx" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/build/debug" />
             <excludedPath local="true" path="$PROJECT_DIR$/build/debug-nx" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="远程主机 (ffd3351e-6829-4f4f-83a4-e590a533c1f8)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.MKacczLvmI" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug-nx" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug" />
+            <excludedPath local="true" path="$PROJECT_DIR$/build/debug-nx" />
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
           </excludedPaths>
         </serverdata>
       </paths>

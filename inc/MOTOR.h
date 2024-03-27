@@ -9,7 +9,7 @@
 #include "cstdint"
 #include "define.h"
 #include "ROOT_INIT.h"
-uint8_t can1_data[8];
+
 
 
 struct YUN_MOTOR_DATA_Typedef
@@ -50,7 +50,7 @@ struct  YUN_MOTOR_PID_Typedef
 
     }out;
 };
-typedef struct YUN_TYPEDEF_MOTOR
+typedef struct YUN_TYPEDEF_MOTOR_
 {
     uint8_t PID_INIT;
     struct YUN_MOTOR_DATA_Typedef DATA;
@@ -59,7 +59,6 @@ typedef struct YUN_TYPEDEF_MOTOR
     struct YUN_MOTOR_PID_Typedef PID_C;//电流环
 }YUN_TYPEDEF_MOTOR;
 
-YUN_TYPEDEF_MOTOR MOTOR6020;
 void YUN_F_MOTOR_CAN_RX(YUN_TYPEDEF_MOTOR *MOTOR, const uint8_t *CAN_DATA, uint8_t TYPE, uint8_t STATUS_ID);
 //头部电机清空函数
 void YUN_F_MOTOR_CLEAR(YUN_TYPEDEF_MOTOR *MOTOR, uint8_t TYPE);

@@ -23,7 +23,6 @@ typedef struct _YUN_TYPEDEF_TOP
    int16_t ROUND;
 
 } YUN_TYPEDEF_TOP;
- _YUN_TYPEDEF_TOP TEST;
 
 union YUN_TYPEDEF_TOP_DATA_UNION                            //共用体(用于接受各种数据)(视觉，陀螺仪)
 {
