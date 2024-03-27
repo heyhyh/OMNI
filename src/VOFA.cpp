@@ -25,6 +25,8 @@ void YUN_F_VOFA_PARSE(YUN_TYPEDEF_RECV_UNION *RECV)
 
 }
 
+
+
 void YU_F_VOFA_DEBUG_CAL(YU_TYPEDEF_DEBUG *DEBUG, YUN_TYPEDEF_MOTOR *MOTOR)
 {
     DEBUG->MOTOR_DATA.AIM = MOTOR->DATA.AIM;
@@ -71,7 +73,27 @@ void YU_F_VOFA_DEBUG_CAL(YU_TYPEDEF_DEBUG *DEBUG, YUN_TYPEDEF_MOTOR *MOTOR)
 
 }
 
+void YUN_F_VOFA_ASSIGN(YUN_TYPEDEF_RECV_UNION *RECV)
+{
+    std::string OUTLINE = RECV->DATA.NAME;
+    auto POS_1 = OUTLINE.find('_');
+    auto HEAD = OUTLINE.substr(0,POS_1);
+    auto TAIL = OUTLINE.substr(POS_1+1);
 
+    static const std::unordered_map<std::string,int>MOTOR_MAP{
+            {"C1",YUN_D_VOFA_C1 }
+
+    };
+}
+
+
+
+void YUN_F_VOFA_DEBUG()
+{
+    switch (MOTOR_TYPE) {
+        
+    }
+}
 
 [[noreturn]] void YUN_F_THREAD_VOFA()
 {
