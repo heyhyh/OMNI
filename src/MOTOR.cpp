@@ -50,7 +50,7 @@ void YUN_F_MOTOR_CAN_RX(YUN_TYPEDEF_MOTOR *MOTOR,const uint8_t *CAN_DATA,uint8_t
         }else if(ANGLE_ERRO_INIT > 4096)
         {
             MOTOR->DATA.ANGLE_RELATIVE = ANGLE_ERRO_INIT;
-            MOTOR->DATA.ANGLE_INFINITE = (int32_t)((MOTOR->DATA.LAPS << 13) + MOTOR->DATA.ANGLE_NOW);
+            MOTOR->DATA.ANGLE_INFINITE = (int32_t)((MOTOR->DATA.LAPS << 13) + MOTOR->DATA.ANGLE_NOW);//左移一位乘以2的一次方，2的13次方=8192
         }
             break;
 

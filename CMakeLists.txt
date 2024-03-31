@@ -28,6 +28,8 @@ add_executable(demo ${SOURCES}
         src/UART.cpp
         src/chassis.cpp
         src/VOFA.cpp
-        inc/VOFA.h)
+        inc/VOFA.h
+        inc/GIMBAL.h
+        src/GIMBAL.cpp)
 
 target_link_libraries(demo pthread)

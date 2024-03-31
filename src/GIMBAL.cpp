@@ -1,0 +1,42 @@
+//
+// Created by 86189 on 2024/3/31.
+//
+#include "GIMBAL.h"
+#include "UART.h"
+#include "define.h"
+#include "can.h"
+#include "MOTOR.h"
+#include "main.h"
+YUN_TYPEDEF_MOTOR_ GIMBAL_PITCH;
+YUN_TYPEDEF_MOTOR_ GIMBAL_YAW;
+
+void GIMBAL_CAL()
+{
+//    YUN_F_MOTOR_CLEAR(&GIMBAL_PITCH,YUN_D_MOTOR_GIMBAL_PIT);
+//    YUN_F_MOTOR_CLEAR(&GIMBAL_YAW,YUN_D_MOTOR_GIMBAL_YAW);
+    GIMBAL_PITCH.DATA.AIM += dbus_data.REMOTE.CH0_int16 * 0.001f;
+    GIMBAL_YAW.DATA.AIM +=dbus_data.REMOTE.CH2_int16 * 0.001f;
+    if(GIMBAL_PITCH.DATA.AIM > 5200)
+    {
+        GIMBAL_PITCH.DATA.AIM = 5200;
+    }
+    if(GIMBAL_PITCH.DATA.AIM < 1800)
+    {
+        GIMBAL_PITCH.DATA.AIM = 1800;
+    }
+    YUN_F_MOTOR_PID_GIMBAL(&GIMBAL_PITCH, GIMBAL_PITCH.DATA.AIM, GIMBAL_PITCH.PID_P.out.ALL_OUT);
+    YUN_F_MOTOR_PID_GIMBAL(&GIMBAL_YAW, GIMBAL_YAW.DATA.AIM, GIMBAL_YAW.PID_P.out.ALL_OUT);
+
+}
+
+[[noreturn]] void YUN_F_GIMBAL_THREAD(TYPEDEF_DBUS *YUN_V_DBUS)
+{
+    YUN_F_CAN_INIT();
+
+    printf("INIT OK\n");
+    YUN_F_CAN_SEND(YUN_D_CAN_2, 0X2FF,GIMBAL_PITCH.PID_P.out.ALL_OUT,CHASSIS_DATA[1].PID_S.out.ALL_OUT,0,0);
+    while(1){
+        GIMBAL_CAL();
+    }
+
+}

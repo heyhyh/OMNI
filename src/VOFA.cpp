@@ -10,8 +10,17 @@
 #include <fcntl.h>
 #include <ifaddrs.h>
 #include <unordered_map>
-
+#include <string.h>
 #include "VOFA.h"
+
+
+YUN_TYPEDEF_MOTOR YU_V_MOTOR_CHASSIS[4];
+YUN_TYPEDEF_TOP YU_V_TOP_DATA_CHASSIS { };
+YU_TYPEDEF_DEBUG YUN_V_DEBUG[10]{ };
+YUN_TYPEDEF_MOTOR YU_V_MOTOR_GIMBAL[2] = {0};
+YUN_TYPEDEF_TOP YU_V_TOP_DATA_GIMBAL{ };
+int8_t MOTOR_TYPE = 9;
+
 void YUN_F_VOFA_PARSE(YUN_TYPEDEF_RECV_UNION *RECV)
 {
     std::string ITER = RECV->ALL;
@@ -81,9 +90,49 @@ void YUN_F_VOFA_ASSIGN(YUN_TYPEDEF_RECV_UNION *RECV)
     auto TAIL = OUTLINE.substr(POS_1+1);
 
     static const std::unordered_map<std::string,int>MOTOR_MAP{
-            {"C1",YUN_D_VOFA_C1 }
+            {"C1",YUN_D_VOFA_C1},
+            {"C2",YUN_D_VOFA_C2},
+            {"C3",YUN_D_VOFA_C3},
+            {"C4",YUN_D_VOFA_C4},
+            {"GY",YUN_D_VOFA_GY},
+            {"GP",YUN_D_VOFA_GP}
 
     };
+    auto IT_HEAD = MOTOR_MAP.find(HEAD);
+    if (IT_HEAD != MOTOR_MAP.end())
+    {
+        MOTOR_TYPE = IT_HEAD->second;
+    }
+
+    static const std::unordered_map<std::string, void(*)(YUN_TYPEDEF_MOTOR_ *,float)>WRITE_MAP{
+            {"A_P", A_P}, {"A_I", A_I}, {"A_D", A_D}, {"A_ILIT", A_ILIT}, {"A_ALIT", A_ALIT},
+            {"S_P", S_P}, {"S_I", S_I}, {"S_D", S_D}, {"S_ILIT", S_ILIT}, {"S_ALIT", S_ALIT},
+            {"C_P", C_P}, {"C_I", C_I}, {"C_D", C_D}, {"C_ILIT", C_ILIT}, {"C_ALIT", C_ALIT}
+    };
+
+    auto IT_TAIL = WRITE_MAP.find(TAIL);
+    if (IT_TAIL != WRITE_MAP.end())
+    {
+        switch (MOTOR_TYPE)
+        {
+            case YUN_D_VOFA_C1: IT_TAIL->second(&YU_V_MOTOR_CHASSIS[YUN_D_MOTOR_CHASSIS_1], RECV->DATA.PARAM);
+                break;
+            case YUN_D_VOFA_C2: IT_TAIL->second(&YU_V_MOTOR_CHASSIS[YUN_D_MOTOR_CHASSIS_2], RECV->DATA.PARAM);
+                break;
+            case YUN_D_VOFA_C3: IT_TAIL->second(&YU_V_MOTOR_CHASSIS[YUN_D_MOTOR_CHASSIS_3], RECV->DATA.PARAM);
+                break;
+            case YUN_D_VOFA_C4: IT_TAIL->second(&YU_V_MOTOR_CHASSIS[YUN_D_MOTOR_CHASSIS_4], RECV->DATA.PARAM);
+                break;
+            case YUN_D_VOFA_GY: IT_TAIL->second(&YU_V_MOTOR_GIMBAL[YUN_D_MOTOR_GIMBAL_YAW], RECV->DATA.PARAM);
+                break;
+            case YUN_D_VOFA_GP: IT_TAIL->second(&YU_V_MOTOR_GIMBAL[YUN_D_MOTOR_GIMBAL_PIT], RECV->DATA.PARAM);
+                break;
+            case 9:    // 空
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 
@@ -91,6 +140,21 @@ void YUN_F_VOFA_ASSIGN(YUN_TYPEDEF_RECV_UNION *RECV)
 void YUN_F_VOFA_DEBUG()
 {
     switch (MOTOR_TYPE) {
+        case YUN_D_VOFA_C1: YU_F_VOFA_DEBUG_CAL(&YUN_V_DEBUG[YUN_D_VOFA_C1], &YU_V_MOTOR_CHASSIS[YUN_D_MOTOR_CHASSIS_1]);
+            break;
+        case YUN_D_VOFA_C2: YU_F_VOFA_DEBUG_CAL(&YUN_V_DEBUG[YUN_D_VOFA_C2], &YU_V_MOTOR_CHASSIS[YUN_D_MOTOR_CHASSIS_2]);
+            break;
+        case YUN_D_VOFA_C3: YU_F_VOFA_DEBUG_CAL(&YUN_V_DEBUG[YUN_D_VOFA_C3], &YU_V_MOTOR_CHASSIS[YUN_D_MOTOR_CHASSIS_3]);
+            break;
+        case YUN_D_VOFA_C4: YU_F_VOFA_DEBUG_CAL(&YUN_V_DEBUG[YUN_D_VOFA_C4], &YU_V_MOTOR_CHASSIS[YUN_D_MOTOR_CHASSIS_4]);
+            break;
+        case YUN_D_VOFA_GY: YU_F_VOFA_DEBUG_CAL(&YUN_V_DEBUG[YUN_D_VOFA_GY], &YU_V_MOTOR_GIMBAL[YUN_D_MOTOR_GIMBAL_YAW]);
+            break;
+        case YUN_D_VOFA_GP: YU_F_VOFA_DEBUG_CAL(&YUN_V_DEBUG[YUN_D_VOFA_GP], &YU_V_MOTOR_GIMBAL[YUN_D_MOTOR_GIMBAL_PIT]);
+            break;
+        default:
+            break;
+    }
         
     }
 }
@@ -167,7 +231,7 @@ void YUN_F_VOFA_DEBUG()
 
 
         }
-        memcpy(&YUN_U_SEND.DATA.YUN_V_MOTOR_DEBUG,sizeof (YUN_V_DEBUG[MOTOR_TYPE]));
+        memcpy(&YUN_U_SEND.DATA.YUN_V_MOTOR_DEBUG,&YUN_V_DEBUG[MOTOR_TYPE],sizeof (YUN_V_DEBUG[MOTOR_TYPE]));
         if (sendto(YUN_U_SOCKET_FD,&YUN_U_SEND,sizeof (YUN_U_SEND.ALL),0,(struct sockaddr *)&YUN_U_CLIENT_ADDR,YUN_U_CLIENT_ADDR_LEN) > 0)
         {
 
