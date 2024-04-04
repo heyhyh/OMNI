@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="nx (69f13408-f720-4c96-bccc-850bb7bdc304)" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
+  <component name="PublishConfigData" serverName="Remote Host (6e8b8bf5-ee17-4f7b-9c31-1eb1aff03caf)" remoteFilesAllowedToDisappearOnAutoupload="false" confirmBeforeUploading="false">
     <option name="confirmBeforeUploading" value="false" />
     <serverData>
       <paths name="Remote Host (6e8b8bf5-ee17-4f7b-9c31-1eb1aff03caf)">
@@ -31,6 +31,13 @@
             <excludedPath local="true" path="$PROJECT_DIR$/build/debug-nx" />
             <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-release" />
           </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="全全 (6e020386-8841-41d1-ac3c-48ce80e12f24)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
         </serverdata>
       </paths>
       <paths name="远程主机 (ffd3351e-6829-4f4f-83a4-e590a533c1f8)">

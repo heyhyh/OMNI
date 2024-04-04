@@ -17,17 +17,15 @@
 #include "main.h"
 #include "UART.h"
 #include "CHASSIS.h"
-
-
+#include "GIMBAL.h"
+#include "VOFA.h"
 TYPEDEF_DBUS dbus_data{ };
 YUN_TYPEDEF_MOTOR CHASSIS_DATA[4];
 float AIM[4];
 void YUN_F_THREAD_01(void)
 {
 
-    YUN_F_CAN_INIT();
 
-    printf("INIT OK\n");
    // YUN_TYPEDEF_MOTOR MOTOR6020[10];
     MecanumInit();
     YUN_TYPEDEF_TOP TEST;
@@ -39,11 +37,7 @@ void YUN_F_THREAD_01(void)
         YUN_F_CHASSIS_MECANUM(&dbus_data);
         YUN_F_CAN_RECEIVE(CHASSIS_DATA,&TEST,YUN_D_CAN_1);
         //printf("ANGLE:  %d\n",MOTOR6020[4].DATA.ANGLE_NOW);
-        CHASSIS_DATA[0].PID_S.IN.P = 5;
-        CHASSIS_DATA[1].PID_S.IN.P = 5;
-        CHASSIS_DATA[2].PID_S.IN.P = 5;
-        CHASSIS_DATA[3].PID_S.IN.P = 5;
-        CHASSIS_DATA[0].PID_S.IN.I = 0.1;
+//printf("");
 
         GetMecanumOut(AIM);
 
@@ -59,9 +53,9 @@ void YUN_F_THREAD_01(void)
         YUN_F_MOTOR_PID_SC(&CHASSIS_DATA[2]);
         YUN_F_MOTOR_PID_SC(&CHASSIS_DATA[3]);
 
-        printf("TARGET:  MOTOR1:  %f  MOTOR2:  %f  MOTOR3:  %f  MOTOR4:  %f\n",
-               CHASSIS_DATA[0].PID_S.out.ALL_OUT,CHASSIS_DATA[1].PID_S.out.ALL_OUT,
-               CHASSIS_DATA[2].PID_S.out.ALL_OUT,CHASSIS_DATA[3].PID_S.out.ALL_OUT);
+//        printf("TARGET:  MOTOR1:  %f  MOTOR2:  %f  MOTOR3:  %f  MOTOR4:  %f\n",
+//               CHASSIS_DATA[0].PID_S.out.ALL_OUT,CHASSIS_DATA[1].PID_S.out.ALL_OUT,
+//               CHASSIS_DATA[2].PID_S.out.ALL_OUT,CHASSIS_DATA[3].PID_S.out.ALL_OUT);
 
 //        YUN_F_CAN_SEND(YUN_D_CAN_1, 0X200,CHASSIS_DATA[0].PID_S.out.ALL_OUT,CHASSIS_DATA[1].PID_S.out.ALL_OUT,CHASSIS_DATA[2].PID_S.out.ALL_OUT,CHASSIS_DATA[3].PID_S.out.ALL_OUT);
 
@@ -75,11 +69,17 @@ void YUN_F_THREAD_02(void)
 }
 
 int main()
-{
-    std::thread t1(YUN_F_THREAD_01);
-    std::thread t2(YUN_F_DBUS_THREAD, &dbus_data);
-    t1.join();
-    t2.join();
+{   YUN_F_CAN_INIT();
+
+    printf("INIT OK\n");
+//    std::thread t1(YUN_F_THREAD_01);
+//    std::thread t2(YUN_F_DBUS_THREAD, &dbus_data);
+//    std::thread t3(YUN_F_GIMBAL_THREAD,&dbus_data);
+    std::thread t4(YUN_F_THREAD_VOFA);
+//    t1.join();
+//    t2.join();
+//    t3.join();
+    t4.join();
     return 0;
 
 }

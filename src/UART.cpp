@@ -52,7 +52,7 @@
         auto FLAG = read(UART_FD,YUN_V_DBUS_UNION.GET_DATA,sizeof(YUN_V_DBUS_UNION.GET_DATA));
 
 //        printf(" FLAG read =  %zd\n",FLAG);
-        if(FLAG > 0)
+        if(FLAG == 19)
         {
             YUN_V_MONITOR.TIME[YUN_D_STATUS_ID_DBUS] = 100;
 
