@@ -180,8 +180,8 @@ void YUN_F_VOFA_DEBUG()
 
 [[noreturn]] void YUN_F_THREAD_VOFA()
 {
-    YUN_TYPEDEF_SEND_UNION YUN_U_SEND;
-    YUN_TYPEDEF_RECV_UNION YUN_U_RECV;
+    YUN_TYPEDEF_SEND_UNION YUN_U_SEND{ };
+    YUN_TYPEDEF_RECV_UNION YUN_U_RECV{ };
     YUN_U_SEND.DATA.TAIL[2] = 0x80;
     YUN_U_SEND.DATA.TAIL[3] = 0x7f;
 
@@ -199,7 +199,7 @@ void YUN_F_VOFA_DEBUG()
 
     //设置非阻塞模式
     int FLAG = fcntl(YUN_U_SOCKET_FD,F_GETFL,0);
-    if(fcntl(YUN_U_SOCKET_FD,F_SETFL,FLAG |O_NONBLOCK) == -1)
+    if(fcntl(YUN_U_SOCKET_FD,F_SETFL, FLAG|O_NONBLOCK) == -1)
     {
         perror("设置非阻塞失败\n");
         exit(1);
@@ -252,10 +252,15 @@ void YUN_F_VOFA_DEBUG()
 
         }
         memcpy(&YUN_U_SEND.DATA.YUN_V_MOTOR_DEBUG,&YUN_V_DEBUG[MOTOR_TYPE],sizeof (YUN_V_DEBUG[MOTOR_TYPE]));
-        sendto(YUN_U_SOCKET_FD,YUN_U_SEND.ALL,160,0,(struct sockaddr *)&YUN_U_CLIENT_ADDR,(socklen_t)sizeof (YUN_U_CLIENT_ADDR)) ;
+
 //        extern ssize_t sendto(int __fd, const void *__buf, size_t __n, int __flags, const sockaddr *__addr, socklen_t __addr_len)
 //        Send N bytes of BUF on socket FD to peer at address ADDR (which is
 //        ADDR_LEN bytes long).  Returns the number sent, or -1 for errors.
+//        fd 标识符  *buf buf地址 n buf长度 flags 一般为0 *__addr addr地址 __addr_len addr len
+        if (sendto(YUN_U_SOCKET_FD,YUN_U_SEND.ALL,sizeof (YUN_U_SEND.ALL),0,(struct sockaddr *)&YUN_U_CLIENT_ADDR,(socklen_t)sizeof (YUN_U_CLIENT_ADDR)) >0)
+        {
+
+        }
 
                 usleep(1);
     }
