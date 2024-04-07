@@ -25,7 +25,7 @@ struct YUN_TYPEDEF_DEBUG
     struct YUN_MOTOR_PID_Typedef PID_C;//电流环
 
 };
-
+extern YUN_TYPEDEF_MOTOR YUN_V_MOTOR_CHASSIS[4];
 extern struct YUN_TYPEDEF_DEBUG YUN_V_DEBUG[10];
 [[noreturn]] void YUN_F_DEBUG_THREAD();
 #endif //DEMO_DEBUG_H

@@ -12,9 +12,9 @@
 #include <unordered_map>
 #include <string.h>
 #include "VOFA.h"
+#include "main.h"
+//#ifdef RUI_BUILD_DEBUG
 
-
-YUN_TYPEDEF_MOTOR YUN_V_MOTOR_CHASSIS[4];
 YUN_TYPEDEF_TOP YUN_V_TOP_DATA_CHASSIS { };
 YUN_TYPEDEF_DEBUG YUN_V_DEBUG[10]{ };
 YUN_TYPEDEF_MOTOR YUN_V_MOTOR_GIMBAL[2] = {0};
@@ -98,6 +98,8 @@ static void C_I(YUN_TYPEDEF_MOTOR *MOTOR, float PARAM) {MOTOR->PID_C.IN.I = PARA
 static void C_D(YUN_TYPEDEF_MOTOR *MOTOR, float PARAM) {MOTOR->PID_C.IN.D = PARAM;}
 static void C_ILIT(YUN_TYPEDEF_MOTOR *MOTOR, float PARAM) {MOTOR->PID_C.IN.I_LIT = PARAM;}
 static void C_ALIT(YUN_TYPEDEF_MOTOR *MOTOR, float PARAM) {MOTOR->PID_C.IN.ALL_LIT = PARAM;}
+
+
 void YUN_F_VOFA_ASSIGN(YUN_TYPEDEF_RECV_UNION *RECV)
 {
     std::string OUTLINE = RECV->DATA.NAME;
@@ -117,7 +119,8 @@ void YUN_F_VOFA_ASSIGN(YUN_TYPEDEF_RECV_UNION *RECV)
     auto IT_HEAD = MOTOR_MAP.find(HEAD);
     if (IT_HEAD != MOTOR_MAP.end())
     {
-        MOTOR_TYPE = IT_HEAD->second;
+         MOTOR_TYPE = IT_HEAD->second;
+        printf("MOTOR_TYPE:%d",MOTOR_TYPE);
     }
 
     static const std::unordered_map<std::string, void(*)(YUN_TYPEDEF_MOTOR_ *,float)>WRITE_MAP{
@@ -143,8 +146,8 @@ void YUN_F_VOFA_ASSIGN(YUN_TYPEDEF_RECV_UNION *RECV)
                 break;
             case YUN_D_VOFA_GP: IT_TAIL->second(&YUN_V_MOTOR_GIMBAL[YUN_D_MOTOR_GIMBAL_PIT], RECV->DATA.PARAM);
                 break;
-            case 9:    // 空
-                break;
+//            case 9:    // 空
+//                break;
             default:
                 break;
         }
@@ -234,14 +237,14 @@ void YUN_F_VOFA_DEBUG()
 
     while (true)
     {
-        YUN_F_VOFA_DEBUG();
+        YUN_F_VOFA_DEBUG();//把DEBUG移到IF判断里会不会更好，只有当收到数据时才进行赋值，要不然数据没变的情况下持续赋值很浪费运存
 
         if (recvfrom(YUN_U_SOCKET_FD,&YUN_U_RECV,sizeof (YUN_U_RECV.ALL),0,(struct sockaddr *)&YUN_U_CLIENT_ADDR,&YUN_U_CLIENT_ADDR_LEN)>0)
         {
             char CLIENT_IP[INET_ADDRSTRLEN];
             inet_ntop(AF_INET,&YUN_U_CLIENT_ADDR.sin_addr,CLIENT_IP,INET_ADDRSTRLEN);
 
-            YUN_F_VOFA_PARSE(&YUN_U_RECV);//解析收到的数据
+//            YUN_F_VOFA_PARSE(&YUN_U_RECV);//解析收到的数据
 
             YUN_F_VOFA_ASSIGN(&YUN_U_RECV);
 
@@ -258,3 +261,4 @@ void YUN_F_VOFA_DEBUG()
 
 }
 
+//#endif

@@ -7,5 +7,6 @@ void YUN_F_THREAD_01(void);
 
 
 extern TYPEDEF_DBUS dbus_data;
-extern YUN_TYPEDEF_MOTOR CHASSIS_DATA[4];
+extern YUN_TYPEDEF_MOTOR YUN_V_MOTOR_CHASSIS[4];
+;
 #endif
