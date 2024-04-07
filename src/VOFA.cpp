@@ -247,15 +247,17 @@ void YUN_F_VOFA_DEBUG()
 //            YUN_F_VOFA_PARSE(&YUN_U_RECV);//解析收到的数据
 
             YUN_F_VOFA_ASSIGN(&YUN_U_RECV);
+//            printf("5656\n");
 
 
         }
         memcpy(&YUN_U_SEND.DATA.YUN_V_MOTOR_DEBUG,&YUN_V_DEBUG[MOTOR_TYPE],sizeof (YUN_V_DEBUG[MOTOR_TYPE]));
-        if (sendto(YUN_U_SOCKET_FD,&YUN_U_SEND,sizeof (YUN_U_SEND.ALL),0,(struct sockaddr *)&YUN_U_CLIENT_ADDR,YUN_U_CLIENT_ADDR_LEN) > 0)
-        {
+        sendto(YUN_U_SOCKET_FD,YUN_U_SEND.ALL,160,0,(struct sockaddr *)&YUN_U_CLIENT_ADDR,(socklen_t)sizeof (YUN_U_CLIENT_ADDR)) ;
+//        extern ssize_t sendto(int __fd, const void *__buf, size_t __n, int __flags, const sockaddr *__addr, socklen_t __addr_len)
+//        Send N bytes of BUF on socket FD to peer at address ADDR (which is
+//        ADDR_LEN bytes long).  Returns the number sent, or -1 for errors.
 
-        }
-        usleep(1);
+                usleep(1);
     }
 
 
