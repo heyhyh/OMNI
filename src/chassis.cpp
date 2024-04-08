@@ -10,7 +10,7 @@
 #include <cmath>
 Chassis_typedef Chassis_Data;
 Mecanum_typdef MecanumData;
-int16_t RELATIVE_ANGLE = YUN_V_GIMBAL_YAW.DATA.ANGLE_NOW - YUN_V_GIMBAL_YAW.DATA.ANGLE_LAST;
+int16_t RELATIVE_ANGLE;
 
 void MecanumInit(void)
 {
@@ -71,6 +71,15 @@ void YUN_F_CHASSIS_MECANUM(TYPEDEF_DBUS_ *DBUS)
         remote[3] = 0;
     }
     static bool  STR = false;
+    RELATIVE_ANGLE = YUN_V_GIMBAL_YAW.DATA.ANGLE_NOW - YUN_V_GIMBAL_YAW.DATA.ANGLE_LAST;
+
+    if (RELATIVE_ANGLE > 4096)
+    {
+        RELATIVE_ANGLE -= 8192;
+    } else if (RELATIVE_ANGLE < -4096)
+    {
+        RELATIVE_ANGLE += 8192;
+    }
 
     float ANGLE_RAD = (float) -RELATIVE_ANGLE * 0.000767944870878f;
 
