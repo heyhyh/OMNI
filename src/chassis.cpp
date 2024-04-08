@@ -4,8 +4,13 @@
 #include "CHASSIS.h"
 #include "UART.h"
 #include "MATH.h"
+#include "MOTOR.h"
+#include "GIMBAL.h"
+
+#include <cmath>
 Chassis_typedef Chassis_Data;
 Mecanum_typdef MecanumData;
+int16_t RELATIVE_ANGLE = YUN_V_GIMBAL_YAW.DATA.ANGLE_NOW - YUN_V_GIMBAL_YAW.DATA.ANGLE_LAST;
 
 void MecanumInit(void)
 {
@@ -65,6 +70,17 @@ void YUN_F_CHASSIS_MECANUM(TYPEDEF_DBUS_ *DBUS)
     {
         remote[3] = 0;
     }
+    static bool  STR = false;
+
+    float ANGLE_RAD = (float) -RELATIVE_ANGLE * 0.000767944870878f;
+
+    float COS_ANGLE = std::cos(ANGLE_RAD);
+    float SIN_ANGLE = std::sin(ANGLE_RAD);
+
+    float ROTATED_VX = MecanumData.Max_vx_speed * COS_ANGLE - MecanumData.Max_vx_speed * SIN_ANGLE;
+    float ROTATED_VY = MecanumData.Max_vx_speed * SIN_ANGLE + MecanumData.Max_vx_speed * COS_ANGLE;
+
+
     remote[0] = YUN_D_MATH_LIMIT(MecanumData.Max_vx_speed, -MecanumData.Max_vx_speed, remote[0]);
     remote[1] = YUN_D_MATH_LIMIT(MecanumData.Max_vy_speed, -MecanumData.Max_vy_speed, remote[1]);
     remote[2] = YUN_D_MATH_LIMIT(MecanumData.Max_vr_speed, -MecanumData.Max_vr_speed, remote[2]);

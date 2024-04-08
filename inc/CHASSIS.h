@@ -48,6 +48,8 @@ typedef struct
     float MecanumOut[4];   // 分配后的输出
 } Mecanum_typdef;
 
+extern int16_t RELATIVE_ANGLE;
+
 void MecanumInit(void);
 void YUN_F_CHASSIS_MECANUM(TYPEDEF_DBUS_ *DBUS);
 void GetMecanumOut(float *target);
