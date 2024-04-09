@@ -86,8 +86,8 @@ void YUN_F_CHASSIS_MECANUM(TYPEDEF_DBUS_ *DBUS)
     float COS_ANGLE = std::cos(ANGLE_RAD);
     float SIN_ANGLE = std::sin(ANGLE_RAD);
 
-    float ROTATED_VX = remote[0] * COS_ANGLE - remote[0] * SIN_ANGLE;
-    float ROTATED_VY = remote[1] * SIN_ANGLE + remote[1] * COS_ANGLE;
+    float ROTATED_VX = remote[0] * COS_ANGLE - remote[1] * SIN_ANGLE;
+    float ROTATED_VY = remote[1] * SIN_ANGLE + remote[0] * COS_ANGLE;
 
 
 //    remote[0] = YUN_D_MATH_LIMIT(MecanumData.Max_vx_speed, -MecanumData.Max_vx_speed, remote[0]);
