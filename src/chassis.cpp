@@ -70,7 +70,7 @@ void YUN_F_CHASSIS_MECANUM(TYPEDEF_DBUS_ *DBUS)
     {
         remote[3] = 0;
     }
-    static bool  STR = false;
+
     RELATIVE_ANGLE = YUN_V_GIMBAL_YAW.DATA.ANGLE_NOW - YUN_V_GIMBAL_YAW.DATA.ANGLE_LAST;
 
     if (RELATIVE_ANGLE > 4096)
@@ -86,19 +86,20 @@ void YUN_F_CHASSIS_MECANUM(TYPEDEF_DBUS_ *DBUS)
     float COS_ANGLE = std::cos(ANGLE_RAD);
     float SIN_ANGLE = std::sin(ANGLE_RAD);
 
-    float ROTATED_VX = MecanumData.Max_vx_speed * COS_ANGLE - MecanumData.Max_vx_speed * SIN_ANGLE;
-    float ROTATED_VY = MecanumData.Max_vx_speed * SIN_ANGLE + MecanumData.Max_vx_speed * COS_ANGLE;
+    float ROTATED_VX = remote[0] * COS_ANGLE - remote[0] * SIN_ANGLE;
+    float ROTATED_VY = remote[1] * SIN_ANGLE + remote[1] * COS_ANGLE;
 
 
-    remote[0] = YUN_D_MATH_LIMIT(MecanumData.Max_vx_speed, -MecanumData.Max_vx_speed, remote[0]);
-    remote[1] = YUN_D_MATH_LIMIT(MecanumData.Max_vy_speed, -MecanumData.Max_vy_speed, remote[1]);
-    remote[2] = YUN_D_MATH_LIMIT(MecanumData.Max_vr_speed, -MecanumData.Max_vr_speed, remote[2]);
+//    remote[0] = YUN_D_MATH_LIMIT(MecanumData.Max_vx_speed, -MecanumData.Max_vx_speed, remote[0]);
+//    remote[1] = YUN_D_MATH_LIMIT(MecanumData.Max_vy_speed, -MecanumData.Max_vy_speed, remote[1]);
+//    remote[2] = YUN_D_MATH_LIMIT(MecanumData.Max_vr_speed, -MecanumData.Max_vr_speed, remote[2]);
 
-// 寻找输出最大值
-    MecanumData.MecanumOut[0] = ( remote[1] + remote[0] - remote[2] * MecanumData.raid_fl) * MecanumData.Wheel_rpm_ratio;
-    MecanumData.MecanumOut[1] = (-remote[1] + remote[0] - remote[2] * MecanumData.raid_fr) * MecanumData.Wheel_rpm_ratio;
-    MecanumData.MecanumOut[2] = (-remote[1] - remote[0] - remote[2] * MecanumData.raid_br) * MecanumData.Wheel_rpm_ratio;
-    MecanumData.MecanumOut[3] = ( remote[1] - remote[0] - remote[2] * MecanumData.raid_bl) * MecanumData.Wheel_rpm_ratio;
+//麦轮解算
+    MecanumData.MecanumOut[0] = ( ROTATED_VY + ROTATED_VX - remote[2] * MecanumData.raid_fl) * MecanumData.Wheel_rpm_ratio;
+    MecanumData.MecanumOut[1] = (-ROTATED_VY + ROTATED_VX - remote[2] * MecanumData.raid_fr) * MecanumData.Wheel_rpm_ratio;
+    MecanumData.MecanumOut[2] = (-ROTATED_VY - ROTATED_VX - remote[2] * MecanumData.raid_br) * MecanumData.Wheel_rpm_ratio;
+    MecanumData.MecanumOut[3] = ( ROTATED_VY - ROTATED_VX - remote[2] * MecanumData.raid_bl) * MecanumData.Wheel_rpm_ratio;
+    // 寻找输出最大值
     for (uint8_t i = 0; i < 4; i++)
     {
         if (YUN_D_MATH_ABS(MecanumData.MecanumOut[i]) >= tempMax)

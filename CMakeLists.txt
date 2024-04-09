@@ -32,6 +32,8 @@ add_executable(demo ${SOURCES}
         inc/GIMBAL.h
         src/GIMBAL.cpp
         src/vofa_test.cpp
-        inc/vofa_test.h)
+        src/ATTACK.cpp
+        inc/ATTACK.h
+)
 
 target_link_libraries(demo pthread)
