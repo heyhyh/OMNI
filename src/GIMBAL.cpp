@@ -36,6 +36,7 @@ void GIMBAL_CAL(TYPEDEF_DBUS *dbus_data)
 
     while(1){
         GIMBAL_CAL(YUN_V_DBUS);
+
         YUN_F_CAN_SEND(YUN_D_CAN_2, 0X2FF,YUN_V_GIMBAL_PITCH.PID_P.out.ALL_OUT,0,0,0);
     }
 

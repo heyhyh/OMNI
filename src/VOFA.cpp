@@ -178,7 +178,7 @@ void YUN_F_VOFA_DEBUG()
 }
 
 
-[[noreturn]] void YUN_F_THREAD_VOFA()
+[[noreturn]] void sudiYUN_F_THREAD_VOFA()
 {
     YUN_TYPEDEF_SEND_UNION YUN_U_SEND{ };
     YUN_TYPEDEF_RECV_UNION YUN_U_RECV{ };
