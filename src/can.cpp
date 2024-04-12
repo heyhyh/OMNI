@@ -122,7 +122,7 @@ static bool YUN_F_CAN_RECEIVE_SOLVE(YUN_TYPEDEF_MOTOR *MOTOR,YUN_TYPEDEF_TOP *YU
         break;
         //case YUN_D_CAN_ID_ATTACK_G:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_ATTACK_G], CAN_DATA, YUN_D_MOTOR_TYPE_2006,YUN_D_STATUS_ID_ATTACK_G);
         break;
-        //case YUN_D_CAN_ID_TOP:YUN_F_TOP_CAN_RX(YUN_V_TOP_DATA, CAN_DATA);
+//        case YUN_D_CAN_ID_TOP:YUN_F_TOP_CAN_RX(YUN_V_TOP_DATA, CAN_DATA);
         break;
         default:break;
         }
@@ -216,7 +216,7 @@ bool YUN_F_CAN_SEND(uint8_t can, u_int32_t can_id,int16_t num1,int16_t num2,int1
     {
 //        perror("select error!\n");
         printf("select error!\n");
-//        exit(0);
+        exit(0);
         sleep(2);
     }
         //CAN_FD[can]可写，执行写操作

@@ -178,7 +178,7 @@ void YUN_F_VOFA_DEBUG()
 }
 
 
-[[noreturn]] void sudiYUN_F_THREAD_VOFA()
+[[noreturn]] void YUN_F_THREAD_VOFA()
 {
     YUN_TYPEDEF_SEND_UNION YUN_U_SEND{ };
     YUN_TYPEDEF_RECV_UNION YUN_U_RECV{ };
@@ -237,7 +237,7 @@ void YUN_F_VOFA_DEBUG()
 
     while (true)
     {
-        YUN_F_VOFA_DEBUG();//把DEBUG移到IF判断里会不会更好，只有当收到数据时才进行赋值，要不然数据没变的情况下持续赋值很浪费运存
+        YUN_F_VOFA_DEBUG();
 
         if (recvfrom(YUN_U_SOCKET_FD,&YUN_U_RECV,sizeof (YUN_U_RECV.ALL),0,(struct sockaddr *)&YUN_U_CLIENT_ADDR,&YUN_U_CLIENT_ADDR_LEN)>0)
         {
