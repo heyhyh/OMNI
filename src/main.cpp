@@ -30,7 +30,11 @@ void YUN_F_THREAD_01(void)
 
    // YUN_TYPEDEF_MOTOR MOTOR6020[10];
     MecanumInit();
-
+    YUN_V_MOTOR_CHASSIS[0].PID_S.IN.P = 5;
+    YUN_V_MOTOR_CHASSIS[1].PID_S.IN.P = 5;
+    YUN_V_MOTOR_CHASSIS[2].PID_S.IN.P = 5;
+    YUN_V_MOTOR_CHASSIS[3].PID_S.IN.P = 5;
+    YUN_V_MOTOR_CHASSIS[0].PID_S.IN.I = 0.1;
     while (true)
     {
 
@@ -41,6 +45,7 @@ void YUN_F_THREAD_01(void)
 
         //printf("ANGLE:  %d\n",MOTOR6020[4].DATA.ANGLE_NOW);
 //printf("");
+
 
         GetMecanumOut(AIM);
 
@@ -56,11 +61,11 @@ void YUN_F_THREAD_01(void)
         YUN_F_MOTOR_PID_SC(&YUN_V_MOTOR_CHASSIS[2]);
         YUN_F_MOTOR_PID_SC(&YUN_V_MOTOR_CHASSIS[3]);
 
-//        printf("TARGET:  MOTOR1:  %f  MOTOR2:  %f  MOTOR3:  %f  MOTOR4:  %f\n",
-//               CHASSIS_DATA[0].PID_S.out.ALL_OUT,CHASSIS_DATA[1].PID_S.out.ALL_OUT,
-//               CHASSIS_DATA[2].PID_S.out.ALL_OUT,CHASSIS_DATA[3].PID_S.out.ALL_OUT);
+        printf("TARGET:  MOTOR1:  %f  MOTOR2:  %f  MOTOR3:  %f  MOTOR4:  %f\n",
+               YUN_V_MOTOR_CHASSIS[0].PID_S.out.ALL_OUT,YUN_V_MOTOR_CHASSIS[1].PID_S.out.ALL_OUT,
+               YUN_V_MOTOR_CHASSIS[2].PID_S.out.ALL_OUT,YUN_V_MOTOR_CHASSIS[3].PID_S.out.ALL_OUT);
 
-        YUN_F_CAN_SEND(YUN_D_CAN_1, 0X200,YUN_V_MOTOR_CHASSIS[0].PID_S.out.ALL_OUT,YUN_V_MOTOR_CHASSIS[1].PID_S.out.ALL_OUT,YUN_V_MOTOR_CHASSIS[2].PID_S.out.ALL_OUT,YUN_V_MOTOR_CHASSIS[3].PID_S.out.ALL_OUT);
+        YUN_F_CAN_SEND(1, 0X200,YUN_V_MOTOR_CHASSIS[0].PID_S.out.ALL_OUT,YUN_V_MOTOR_CHASSIS[1].PID_S.out.ALL_OUT,YUN_V_MOTOR_CHASSIS[2].PID_S.out.ALL_OUT,YUN_V_MOTOR_CHASSIS[3].PID_S.out.ALL_OUT);
 
         usleep(1);
     }
@@ -74,16 +79,16 @@ void YUN_F_THREAD_02(void)
 int main()
 {   YUN_F_CAN_INIT();
 
-//    printf("INIT OK\n");
-    std::thread t1(YUN_F_THREAD_01);
+    printf("INIT OK\n");
+//    std::thread t1(YUN_F_THREAD_01);
 //    std::thread t2(YUN_F_DBUS_THREAD, &dbus_data);
-    std::thread t3(YUN_F_GIMBAL_THREAD,&dbus_data);  // 666
-//    printf("CH0:%d ,CH1:%d ,CH2:%D",dbus_data.REMOTE.CH0_int16,dbus_data.REMOTE.CH1_int16,dbus_data.REMOTE.CH2_int16);
-    std::thread t4(YUN_F_THREAD_VOFA);
+    std::thread t3(YUN_F_GIMBAL_THREAD,&dbus_data,YUN_V_GIMBAL);  // 666
+
+//    std::thread t4(YUN_F_THREAD_VOFA);
 //    t1.join();
 //    t2.join();
-//    t3.join();
-    t4.join();
+    t3.join();
+//    t4.join();
     return 0;
 
 }

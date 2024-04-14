@@ -50,6 +50,30 @@ union TYPEDEF_DBUS_UNION//共用体整合数据
         uint64_t s1: 2;
         uint64_t s2: 2;
 
+
+        // 鼠标数据
+        int64_t MOUSE_X: 16;
+        int64_t MOUSE_Y: 16;
+        int64_t MOUSE_Z: 16;
+        int64_t MOUSE_L: 8;
+        int64_t MOUSE_R: 8;
+        // 键盘数据
+        uint64_t KEY_BOARD_W: 1;
+        uint64_t KEY_BOARD_S: 1;
+        uint64_t KEY_BOARD_A: 1;
+        uint64_t KEY_BOARD_D: 1;
+        uint64_t KEY_BOARD_SHIFT: 1;
+        uint64_t KEY_BOARD_CTRL: 1;
+        uint64_t KEY_BOARD_Q: 1;
+        uint64_t KEY_BOARD_E: 1;
+        uint64_t KEY_BOARD_R: 1;
+        uint64_t KEY_BOARD_F: 1;
+        uint64_t KEY_BOARD_G: 1;
+        uint64_t KEY_BOARD_Z: 1;
+        uint64_t KEY_BOARD_X: 1;
+        uint64_t KEY_BOARD_C: 1;
+        uint64_t KEY_BOARD_V: 1;
+        uint64_t KEY_BOARD_B: 1;
         //遥控滑轮数据
         uint64_t DIR: 11;
         uint64_t : 0;

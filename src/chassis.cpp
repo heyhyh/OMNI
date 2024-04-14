@@ -70,8 +70,8 @@ void YUN_F_CHASSIS_MECANUM(TYPEDEF_DBUS_ *DBUS)
     {
         remote[3] = 0;
     }
-
-    RELATIVE_ANGLE = YUN_V_GIMBAL_YAW.DATA.ANGLE_NOW - YUN_V_GIMBAL_YAW.DATA.ANGLE_LAST;
+    YUN_V_GIMBAL[YUN_D_MOTOR_GIMBAL_YAW].DATA.ANGLE_INIT = 7461 ;
+    RELATIVE_ANGLE = YUN_V_GIMBAL[YUN_D_MOTOR_GIMBAL_YAW].DATA.ANGLE_NOW - YUN_V_GIMBAL[YUN_D_MOTOR_GIMBAL_YAW].DATA.ANGLE_INIT;
 
     if (RELATIVE_ANGLE > 4096)
     {
@@ -88,11 +88,12 @@ void YUN_F_CHASSIS_MECANUM(TYPEDEF_DBUS_ *DBUS)
 
     float ROTATED_VX = remote[0] * COS_ANGLE - remote[1] * SIN_ANGLE;
     float ROTATED_VY = remote[1] * SIN_ANGLE + remote[0] * COS_ANGLE;
+//VR
+    remote[2] =ANGLE_RAD * 0.000767944870878;
 
-
-//    remote[0] = YUN_D_MATH_LIMIT(MecanumData.Max_vx_speed, -MecanumData.Max_vx_speed, remote[0]);
-//    remote[1] = YUN_D_MATH_LIMIT(MecanumData.Max_vy_speed, -MecanumData.Max_vy_speed, remote[1]);
-//    remote[2] = YUN_D_MATH_LIMIT(MecanumData.Max_vr_speed, -MecanumData.Max_vr_speed, remote[2]);
+    remote[0] = YUN_D_MATH_LIMIT(MecanumData.Max_vx_speed, -MecanumData.Max_vx_speed, remote[0]);
+    remote[1] = YUN_D_MATH_LIMIT(MecanumData.Max_vy_speed, -MecanumData.Max_vy_speed, remote[1]);
+    remote[2] = YUN_D_MATH_LIMIT(MecanumData.Max_vr_speed, -MecanumData.Max_vr_speed, remote[2]);
 
 //麦轮解算
     MecanumData.MecanumOut[0] = ( ROTATED_VY + ROTATED_VX - remote[2] * MecanumData.raid_fl) * MecanumData.Wheel_rpm_ratio;

@@ -65,8 +65,11 @@
 #define YUN_D_MOTOR_CHASSIS_3      2
 #define YUN_D_MOTOR_CHASSIS_4      3
 //云台电机
-#define YUN_D_MOTOR_GIMBAL_YAW    4
-#define YUN_D_MOTOR_GIMBAL_PIT    3
+//#define YUN_D_MOTOR_GIMBAL_YAW    4
+#define YUN_D_MOTOR_GIMBAL_YAW    0
+//#define YUN_D_MOTOR_GIMBAL_PIT    3
+#define YUN_D_MOTOR_GIMBAL_PIT    1
+
 #define YUN_D_MOTOR_ATTACK_L      1
 #define YUN_D_MOTOR_ATTACK_R      0
 #define YUN_D_MOTOR_ATTACK_G      2
@@ -135,8 +138,8 @@ extern clock_t YUN_V_START_TIME;
 //陀螺仪
 #define YUN_D_CAN_ID_TOP         0x101
 //云台
-#define YUN_D_CAN_ID_YAW         0x205
-#define YUN_D_CAN_ID_PIT         0x208
+#define YUN_D_CAN_ID_YAW         0x20B
+#define YUN_D_CAN_ID_PIT         0x209
 //发射
 #define YUN_D_CAN_ID_ATTACK_L    0x203
 #define YUN_D_CAN_ID_ATTACK_R    0x204

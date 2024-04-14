@@ -22,22 +22,22 @@ bool YUN_F_CAN_INIT()
 
     struct sockaddr_can ADDR[2];// 用于存储两个CAN接口的地址
     struct ifreq IFR[2];//用于存储两个CAN口的接口请求
-    char *IFNAMES[2] =  {(char *) "can0",(char *)"can1"};
+    char *IFNAMES[2] =  {(char *) "can2",(char *)"can1"};
 
     //创建socket,并绑定can口
-    if((YUN_V_FD_CAN[0] = socket(PF_CAN, SOCK_RAW,CAN_RAW)) > 0)
+    if((YUN_V_FD_CAN[2] = socket(PF_CAN, SOCK_RAW,CAN_RAW)) > 0)
     {
         printf("成功创建socket_can1\n");
     }
     else
     {
         printf("错误创建socket_can1]\n");
-        close(YUN_V_FD_CAN[0]);
+        close(YUN_V_FD_CAN[2]);
         return YUN_D_ERROR;
     }
     strcpy(IFR[0].ifr_name, IFNAMES[0]);
 
-    if(ioctl(YUN_V_FD_CAN[0],SIOCGIFINDEX, &IFR[0])<0)
+    if(ioctl(YUN_V_FD_CAN[2],SIOCGIFINDEX, &IFR[0])<0)
     {
         printf("错误-获取CAN1接口索引\n");
         printf("警告-请检查CAN接口是否存在\n");
@@ -49,14 +49,14 @@ bool YUN_F_CAN_INIT()
     }
     ADDR[0].can_family = AF_CAN;
     ADDR[0].can_ifindex = IFR[0].ifr_ifindex;
-    if(bind(YUN_V_FD_CAN[0],(struct sockaddr*) &ADDR[0], (socklen_t )sizeof(ADDR[0])) == 0)
+    if(bind(YUN_V_FD_CAN[2],(struct sockaddr*) &ADDR[0], (socklen_t )sizeof(ADDR[0])) == 0)
     {
     printf("成功-绑定CAN1套接字和地址\n");
 
     } else
     {
        printf("错误-绑定CAN1套接字和地址\n");
-        close(YUN_V_FD_CAN[0]);
+        close(YUN_V_FD_CAN[2]);
 #ifdef YUN_BUILD_STATIC
         exit(-1);
 #endif
@@ -108,7 +108,7 @@ bool YUN_F_CAN_INIT()
 //CAN解算
 static bool YUN_F_CAN_RECEIVE_SOLVE(YUN_TYPEDEF_MOTOR *MOTOR,YUN_TYPEDEF_TOP *YUN_V_TOP_DATA,uint8_t can, u_int32_t CAN_ID,uint8_t *CAN_DATA)
 {
-    if(can == YUN_D_CAN_2)
+    if(can == 2)
     {
         switch (CAN_ID)
         {
@@ -116,9 +116,9 @@ static bool YUN_F_CAN_RECEIVE_SOLVE(YUN_TYPEDEF_MOTOR *MOTOR,YUN_TYPEDEF_TOP *YU
         break;
         case YUN_D_CAN_ID_PIT:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_GIMBAL_PIT], CAN_DATA, YUN_D_MOTOR_TYPE_6020, YUN_D_STATUS_ID_GIMBAL_PIT);
         break;
-        case YUN_D_CAN_ID_ATTACK_L:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_ATTACK_L], CAN_DATA, YUN_D_MOTOR_TYPE_3508, YUN_D_STATUS_ID_ATTACK_L);
+//        case YUN_D_CAN_ID_ATTACK_L:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_ATTACK_L], CAN_DATA, YUN_D_MOTOR_TYPE_3508, YUN_D_STATUS_ID_ATTACK_L);
         break;
-        case YUN_D_CAN_ID_ATTACK_R:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_ATTACK_R], CAN_DATA, YUN_D_MOTOR_TYPE_3508, YUN_D_STATUS_ID_ATTACK_R);
+//        case YUN_D_CAN_ID_ATTACK_R:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_ATTACK_R], CAN_DATA, YUN_D_MOTOR_TYPE_3508, YUN_D_STATUS_ID_ATTACK_R);
         break;
         //case YUN_D_CAN_ID_ATTACK_G:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_ATTACK_G], CAN_DATA, YUN_D_MOTOR_TYPE_2006,YUN_D_STATUS_ID_ATTACK_G);
         break;
@@ -127,7 +127,7 @@ static bool YUN_F_CAN_RECEIVE_SOLVE(YUN_TYPEDEF_MOTOR *MOTOR,YUN_TYPEDEF_TOP *YU
         default:break;
         }
     }
-  else if (can == YUN_D_CAN_1)
+  else if (can == 1)
     {   switch (CAN_ID)
         {
             case YUN_D_CAN_ID_CHASSIS_1:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_CHASSIS_1], CAN_DATA, YUN_D_MOTOR_TYPE_3508, YUN_D_STATUS_ID_CHASSIS_MOTOR_1);
@@ -212,33 +212,25 @@ bool YUN_F_CAN_SEND(uint8_t can, u_int32_t can_id,int16_t num1,int16_t num2,int1
 //    //等待CAN_FD[can]可写
     int RET = select(YUN_V_FD_CAN[can] + 1, nullptr,&YUN_WRITE_FDS, nullptr,&YUN_CAN_TIMEOUT);
 
-    if(RET == -1)
+    if(RET > 0)
     {
 //        perror("select error!\n");
-        printf("select error!\n");
-        exit(0);
-        sleep(2);
-    }
+        if(write(YUN_V_FD_CAN[can], &CAN_FRAME, sizeof (struct can_frame)) > 0)
+//        exit(0);
+//        sleep(2);
+        {
+            return YUN_D_READY;
+        }
+    }else
         //CAN_FD[can]可写，执行写操作
-////        if()
-////        {
-////            return YUN_D_READY;
-////        }
-////    } else
-////    {
-////        //发生错误
-////        printf("错误-CAN");
-////        return YUN_D_ERROR;
-////
-////    }
+    {
+        printf("CAN ERROR");
+        return YUN_D_ERROR;
+    }
 
 //    write(YUN_V_FD_CAN[can], &CAN_FRAME, sizeof (struct can_frame));
-    ssize_t number = write(YUN_V_FD_CAN[can], &CAN_FRAME, sizeof (CAN_FRAME));
-    if (number == -1)
-    {
-        perror("write error!\n");
-        exit(0);
-    }
+//    ssize_t number = write(YUN_V_FD_CAN[can], &CAN_FRAME, sizeof (CAN_FRAME));
+
     return true;
 }
 
