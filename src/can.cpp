@@ -22,47 +22,44 @@ bool YUN_F_CAN_INIT()
 
     struct sockaddr_can ADDR[2];// 用于存储两个CAN接口的地址
     struct ifreq IFR[2];//用于存储两个CAN口的接口请求
-    char *IFNAMES[2] =  {(char *) "can2",(char *)"can1"};
+    char *IFNAMES[2] =  {(char *) "can1",(char *)"can2"};
 
     //创建socket,并绑定can口
-    if((YUN_V_FD_CAN[2] = socket(PF_CAN, SOCK_RAW,CAN_RAW)) > 0)
+    if((YUN_V_FD_CAN[0] = socket(PF_CAN, SOCK_RAW,CAN_RAW)) > 0)
     {
         printf("成功创建socket_can1\n");
     }
     else
     {
         printf("错误创建socket_can1]\n");
-        close(YUN_V_FD_CAN[2]);
+        close(YUN_V_FD_CAN[0]);
         return YUN_D_ERROR;
     }
     strcpy(IFR[0].ifr_name, IFNAMES[0]);
 
-    if(ioctl(YUN_V_FD_CAN[2],SIOCGIFINDEX, &IFR[0])<0)
+    if(ioctl(YUN_V_FD_CAN[0],SIOCGIFINDEX, &IFR[0])<0)
     {
         printf("错误-获取CAN1接口索引\n");
         printf("警告-请检查CAN接口是否存在\n");
         printf("警告-程序即将退出\n");
 //        close(YUN_V_FD_CAN[0]);
-#ifdef YUN_BUILD_STATIC
-        exit(-1);
-#endif
     }
     ADDR[0].can_family = AF_CAN;
     ADDR[0].can_ifindex = IFR[0].ifr_ifindex;
-    if(bind(YUN_V_FD_CAN[2],(struct sockaddr*) &ADDR[0], (socklen_t )sizeof(ADDR[0])) == 0)
+    if(bind(YUN_V_FD_CAN[0],(struct sockaddr*) &ADDR[0], (socklen_t )sizeof(ADDR[0])) == 0)
     {
     printf("成功-绑定CAN1套接字和地址\n");
 
     } else
     {
        printf("错误-绑定CAN1套接字和地址\n");
-        close(YUN_V_FD_CAN[2]);
+        close(YUN_V_FD_CAN[0]);
 #ifdef YUN_BUILD_STATIC
         exit(-1);
 #endif
     }
-#ifdef YUN_DEBUG_123
-    if((YUN_V_FD_CAN[1] = socket(PF_CAN, SOCK_RAW, CAN_RAW)) == 0)
+
+    if((YUN_V_FD_CAN[1] = socket(PF_CAN, SOCK_RAW, CAN_RAW)) > 0)
     {
         printf("成功-创建SOCKET_CAN2\n");
     }else
@@ -100,7 +97,7 @@ bool YUN_F_CAN_INIT()
     }
 
     return  YUN_D_READY;
-#endif
+
 }
 
 
@@ -108,8 +105,9 @@ bool YUN_F_CAN_INIT()
 //CAN解算
 static bool YUN_F_CAN_RECEIVE_SOLVE(YUN_TYPEDEF_MOTOR *MOTOR,YUN_TYPEDEF_TOP *YUN_V_TOP_DATA,uint8_t can, u_int32_t CAN_ID,uint8_t *CAN_DATA)
 {
-    if(can == 2)
+    if(can == YUN_D_CAN_2)
     {
+
         switch (CAN_ID)
         {
         case YUN_D_CAN_ID_YAW:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_GIMBAL_YAW], CAN_DATA, YUN_D_MOTOR_TYPE_6020, YUN_D_STATUS_ID_GIMBAL_YAW);
@@ -127,9 +125,12 @@ static bool YUN_F_CAN_RECEIVE_SOLVE(YUN_TYPEDEF_MOTOR *MOTOR,YUN_TYPEDEF_TOP *YU
         default:break;
         }
     }
-  else if (can == 1)
-    {   switch (CAN_ID)
+  else if (can == YUN_D_CAN_1)
+    {
+//        printf("123")  ;
+      switch (CAN_ID)
         {
+
             case YUN_D_CAN_ID_CHASSIS_1:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_CHASSIS_1], CAN_DATA, YUN_D_MOTOR_TYPE_3508, YUN_D_STATUS_ID_CHASSIS_MOTOR_1);
                 break;
             case YUN_D_CAN_ID_CHASSIS_2:YUN_F_MOTOR_CAN_RX(&MOTOR[YUN_D_MOTOR_CHASSIS_2], CAN_DATA, YUN_D_MOTOR_TYPE_3508, YUN_D_STATUS_ID_CHASSIS_MOTOR_2);
@@ -159,7 +160,7 @@ bool YUN_F_CAN_RECEIVE(YUN_TYPEDEF_MOTOR *MOTOR,YUN_TYPEDEF_TOP *YUN_V_TOP_DATA,
 
     FD_ZERO(&YUN_READ_FDS);
     FD_SET(YUN_V_FD_CAN[can],&YUN_READ_FDS);
-
+//    printf("%d\n",can);
 
     YUN_CAN_TIMEOUT.tv_sec = 1;
     YUN_CAN_TIMEOUT.tv_usec = 0;
