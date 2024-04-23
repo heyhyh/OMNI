@@ -128,6 +128,7 @@ extern clock_t YUN_V_START_TIME;
 /******************************CAN_ID********************************/
 #define YUN_D_CAN_1 0
 #define YUN_D_CAN_2 1
+
 //底盘
 #define YUN_D_CAN_ID_CHASSIS_1    0x201
 #define YUN_D_CAN_ID_CHASSIS_2    0x202

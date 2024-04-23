@@ -82,9 +82,11 @@ int main()
     printf("INIT OK\n");
 //    std::thread t1(YUN_F_THREAD_01);
     std::thread t2(YUN_F_DBUS_THREAD, &dbus_data);
+//    dbus_data.REMOTE.CH1_int16 = 100;
     std::thread t3(YUN_F_GIMBAL_THREAD,&dbus_data,YUN_V_GIMBAL);  //
-
 //    std::thread t4(YUN_F_THREAD_VOFA);
+
+
 //    t1.join();
     t2.join();
     t3.join();
