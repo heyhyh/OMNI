@@ -42,7 +42,7 @@ int accum = 0;
                     ATTACK[0].DATA.ANGLE_LAST = ATTACK[0].DATA.ANGLE_NOW;
                     ATTACK[0].DATA.AIM += 2r;//弹丸直径待测量
 
-                    if (ATTACK[0].DATA.ANGLE_NOW - ATTACK[0].DATA.ANGLE_LAST < 2r)
+                    if (ATTACK[0].DATA.ANGLE_NOW - ATTACK[0].DATA.ANGLE_LAST < 2r)//检测卡弹
                         accum++;
                 break;
             }
