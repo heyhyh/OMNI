@@ -73,7 +73,7 @@ void YUN_F_SIGLE()
             }
             else if(dbus_data.REMOTE.s1_u8 == 2 && single_lock == 1)//单发上锁
             {
-
+                //Do noting
             }
 
             else if (dbus_data.REMOTE.s1_u8 == 1)//连发
