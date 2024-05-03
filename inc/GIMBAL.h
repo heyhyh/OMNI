@@ -10,7 +10,7 @@
 #include "define.h"
 #include "PID.h"
 #include "UART.h"
-
+//extern YUN_TYPEDEF_TOP TEST_2;
 extern YUN_TYPEDEF_MOTOR_ YUN_V_GIMBAL[2];
 //extern YUN_TYPEDEF_MOTOR_ YUN_V_GIMBAL_YAW;
 extern void GIMBAL_CAL();

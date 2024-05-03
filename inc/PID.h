@@ -7,5 +7,5 @@
 
 void YUN_F_MOTOR_PID_SC(YUN_TYPEDEF_MOTOR *MOTOR);
 void YUN_F_MOTOR_PID_GIMBAL(YUN_TYPEDEF_MOTOR *MOTOR, float TOP_ANGLE, float TOP_SPEED);
-void YUN_F_PID_INIT(struct YUN_MOTOR_PID_Typedef *PID,const float SET[5],float i_limit,float all_limit);
+void YUN_F_PID_INIT(YUN_MOTOR_PID_Typedef *PID,const float *SET,float i_limit,float all_limit);
 #endif //DEMO_PID_H

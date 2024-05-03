@@ -102,12 +102,13 @@ void YUN_F_MOTOR_PID_GIMBAL(YUN_TYPEDEF_MOTOR *MOTOR, float TOP_ANGLE, float TOP
     MOTOR->PID_S.out.ALL_OUT = YUN_D_MATH_LIMIT(MOTOR->PID_S.IN.ALL_LIT, -MOTOR->PID_S.IN.ALL_LIT, MOTOR->PID_S.out.ALL_OUT);
 }
 
-void YUN_F_PID_INIT(struct YUN_MOTOR_PID_Typedef *PID,const float SET[5],float i_limit,float all_limit)//SET:KP,KI,KD,I_LIMIT,ALL_LIMIT
+void YUN_F_PID_INIT(YUN_MOTOR_PID_Typedef *PID,const float *SET,float i_limit,float all_limit)//SET:KP,KI,KD,I_LIMIT,ALL_LIMIT
+
 {
-    PID->IN.P = SET[1];
-    PID->IN.I = SET[2];
-    PID->IN.D = SET[3];
-    PID->IN.I_LIT = SET[4];
-    PID->IN.ALL_LIT = SET[5];
+    PID->IN.P = SET[0];
+    PID->IN.I = SET[1];
+    PID->IN.D = SET[2];
+    PID->IN.I_LIT = SET[3];
+    PID->IN.ALL_LIT = SET[4];
 //    PID->out.ERROR = 0;
 }

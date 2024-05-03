@@ -60,7 +60,7 @@
 
             YUN_V_MONITOR.TIME[YUN_D_STATUS_ID_DBUS] = 100;
 
-            YUN_V_DBUS->REMOTE.s1_u8 = YUN_V_DBUS_UNION.DATA_NEATEN.s1 - 1;
+            YUN_V_DBUS->REMOTE.s1_u8 = YUN_V_DBUS_UNION.DATA_NEATEN.s1 ;
             YUN_V_DBUS->REMOTE.s2_u8 = YUN_V_DBUS_UNION.DATA_NEATEN.s2;
 
             YUN_V_DBUS->REMOTE.CH0_int16 = (int16_t) (YUN_V_DBUS_UNION.DATA_NEATEN.CH0 - 1024);
@@ -69,6 +69,7 @@
             YUN_V_DBUS->REMOTE.CH3_int16 = (int16_t) (YUN_V_DBUS_UNION.DATA_NEATEN.CH3 - 1024);
             YUN_V_DBUS->REMOTE.DIR_int16 = (int16_t) (YUN_V_DBUS_UNION.DATA_NEATEN.DIR - 1024);
 //            printf("CH0=  %d CH1=  %d CH2=  %d CH3=  %d\n",YUN_V_DBUS->REMOTE.CH0_int16,YUN_V_DBUS->REMOTE.CH1_int16,YUN_V_DBUS->REMOTE.CH2_int16,YUN_V_DBUS->REMOTE.CH3_int16);
+//            printf("s1:%d\n s2:%d",YUN_V_DBUS->REMOTE.s1_u8,YUN_V_DBUS->REMOTE.s2_u8);
         }
 //        if(YUN_V_MONITOR.STATUS[YUN_D_NOW][YUN_D_STATUS_ID_DBUS] == YUN_D_STATUS_OFF)
 //        {

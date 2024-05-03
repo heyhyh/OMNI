@@ -9,7 +9,8 @@ include_directories(inc)
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
 add_executable(demo ${SOURCES}
-#        src/MOTOR.cpp
+        src/ATTACK_REMAKE.cpp
+        #        src/MOTOR.cpp
 #        inc/MOTOR.h
 #        inc/define.h
 #        src/ROOT_INIT.cpp
