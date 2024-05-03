@@ -11,7 +11,6 @@
 #include "GIMBAL.h"
 
 YUN_TYPEDEF_MOTOR ATTACK[4]= {0};
-
 YUN_TYPEDEF_TOP TEST_1{ };
 ////0：拨弹 1：摩擦轮左 2：摩擦轮右
 
@@ -52,14 +51,7 @@ int YUN_F_JAM( )
     }
 }
 
-[[noreturn]] void YUN_F_TEST_THREAD( )
-{
-    YUN_F_PID_INIT(&ATTACK[0].PID_P, PID_P, 1000, 3000);
-   while(1)
-   {
-       YUN_F_CAN_RECEIVE()
-   }
-}
+
 
 //有空把单发封装一下，有点多了
 [[noreturn]] void YUN_F_ATTACK_THREAD( ) {

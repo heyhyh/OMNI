@@ -139,8 +139,8 @@ extern clock_t YUN_V_START_TIME;
 //陀螺仪
 #define YUN_D_CAN_ID_TOP         0x101
 //云台
-#define YUN_D_CAN_ID_YAW         0x201
-#define YUN_D_CAN_ID_PIT         0x202
+#define YUN_D_CAN_ID_YAW         0x20B
+#define YUN_D_CAN_ID_PIT         0x209
 //发射
 #define YUN_D_CAN_ID_ATTACK_L    0x207
 #define YUN_D_CAN_ID_ATTACK_R    0x208
