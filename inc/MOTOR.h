@@ -46,7 +46,7 @@ struct  YUN_MOTOR_PID_Typedef
         float P_OUT;
         float I_OUT;
         float D_OUT;
-                float ALL_OUT;
+        float ALL_OUT;
 
     }out;
 };

@@ -148,7 +148,7 @@ extern clock_t YUN_V_START_TIME;
 
 /******************************CAN_ID********************************/
 
-//????????????????????????????VOFA NAME???????????????????????????/
+/*******************VOFA NAME*****************************/
 #define YUN_D_VOFA_C1 0
 #define YUN_D_VOFA_C2 1
 #define YUN_D_VOFA_C3 2
@@ -156,7 +156,7 @@ extern clock_t YUN_V_START_TIME;
 
 #define YUN_D_VOFA_GY 5
 #define YUN_D_VOFA_GP 6
-
+#define YUN_D_VOFA_AG 7
 #define YUN_D_ATTACK_NOR 1
 #define YUN_D_ATTACK_JAM_NEG 2
 #define YUN_D_ATTACK_JAM_cor 3

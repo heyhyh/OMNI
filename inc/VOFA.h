@@ -29,7 +29,7 @@ typedef struct YUN_TYPEDEF_DEBUG
     YUN_MOTOR_PID_Typedef PID_C;
 }YUN_TYPEDEF_DEBUG_;
 
-typedef union YUN_TYPEDEF_SEND_UNION
+typedef union
 {
     struct
     {
@@ -37,7 +37,7 @@ typedef union YUN_TYPEDEF_SEND_UNION
         char TAIL[4];
     } DATA;
     char ALL[160];
-};
+}YUN_TYPEDEF_SEND_UNION;
 typedef union
 {
     struct
